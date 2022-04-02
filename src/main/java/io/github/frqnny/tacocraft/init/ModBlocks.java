@@ -14,7 +14,6 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
-import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -23,7 +22,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.property.Properties;
-import net.minecraft.tag.Tag;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -37,8 +36,7 @@ public class ModBlocks {
     public static final Block OPEN_POT = new OpenPotBlock(FabricBlockSettings.copyOf(Blocks.CAULDRON).requiresTool());
     public static final Block PENCA = new PencaBlock(FabricBlockSettings.copyOf(Blocks.OAK_LEAVES));
     public static final Block TACO_BOWL = new TacoBowlBlock(FabricBlockSettings.copyOf(Blocks.CAKE));
-    public static final Tag<Block> FARMLAND = TagRegistry.block(new Identifier("c", "farmlands"));
-    public static final BlockEntityType<FurnaceBlockEntity> FURNACE_BLOCK_ENTITY = FabricBlockEntityTypeBuilder.create(FurnaceBlockEntity::new, FURNACE_BLOCK).build();
+    public static final TagKey<Block> FARMLAND = TagKey.of(Registry.BLOCK_KEY, new Identifier("c", "farmlands"));
 
     public static void init() {
         Registry.register(Registry.BLOCK, FurnaceBlock.ID, FURNACE_BLOCK);
@@ -53,7 +51,7 @@ public class ModBlocks {
         Registry.register(Registry.BLOCK_ENTITY_TYPE, ComalBlock.ID, COMAL_BLOCK_ENTITY);
         Registry.register(Registry.BLOCK_ENTITY_TYPE, OpenPotBlock.ID, OPEN_POT_BLOCK_ENTITY);
         Registry.register(Registry.BLOCK_ENTITY_TYPE, PencaBlock.ID, PENCA_BLOCK_ENTITY);
-    }
+    }    public static final BlockEntityType<FurnaceBlockEntity> FURNACE_BLOCK_ENTITY = FabricBlockEntityTypeBuilder.create(FurnaceBlockEntity::new, FURNACE_BLOCK).build();
 
     public static void clientInit() {
         BlockEntityRendererRegistry.INSTANCE.register(ModBlocks.COMAL_BLOCK_ENTITY, ComalBlockEntityRenderer::new);
@@ -67,6 +65,7 @@ public class ModBlocks {
     private static ToIntFunction<BlockState> createLightLevelFromBlockState() {
         return (blockState) -> (Boolean) blockState.get(Properties.LIT) ? 13 : 0;
     }
+
 
 
 
