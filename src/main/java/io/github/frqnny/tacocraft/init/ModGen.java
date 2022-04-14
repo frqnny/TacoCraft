@@ -5,10 +5,10 @@ import io.github.frqnny.tacocraft.world.CornFieldFeature;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.biome.v1.ModificationPhase;
+import net.minecraft.tag.BiomeTags;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryEntry;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.placementmodifier.BiomePlacementModifier;
@@ -34,16 +34,22 @@ public class ModGen {
                 .create(TacoCraft.id("feature"))
                 .add(
                         ModificationPhase.ADDITIONS,
-                        BiomeSelectors.categories(Biome.Category.PLAINS, Biome.Category.SAVANNA),
+                        BiomeSelectors.tag(BiomeTags.IS_SAVANNA).and(BiomeSelectors.tag(BiomeTags.VILLAGE_PLAINS_HAS_STRUCTURE)),
                         (biomeModificationContext -> biomeModificationContext.getGenerationSettings().addBuiltInFeature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, PLACED_CORN))
                 );
 
-
         /*
-        StructurePoo.EVENT.register(structurePool -> {
-            if (structurePool.getUnderlyingPool().getId().toString().contains("minecraft:village/plains/houses")) {
-                structurePool.addStructurePoolElement(StructurePoolElement.ofProcessedLegacySingle("tacocraft:plains_corn_farm", StructureProcessorLists.FARM_PLAINS).apply(StructurePool.Projection.RIGID));
-            }
+        DynamicRegistrySetupCallback.EVENT.register(registryManager -> {
+            Registry<StructurePool>  structurePools = registryManager.get(Registry.STRUCTURE_POOL_KEY);
+            RegistryEntryAddedCallback.event(structurePools).register((rawId, id, object) -> {
+                Registry<StructureProcessorList> structureProcessorLists =  registryManager.get(Registry.STRUCTURE_PROCESSOR_LIST_KEY);
+                RegistryEntry<StructureProcessorList> list =structureProcessorLists.getEntry(RegistryKey.of(Registry.STRUCTURE_PROCESSOR_LIST_KEY, new Identifier("farm_plains"))).get();
+                StructurePoolElement element = StructurePoolElement.ofProcessedLegacySingle("tacocraft:plains_corn_farm", list).apply(StructurePool.Projection.RIGID);
+
+                FabricStructurePool pool = new FabricStructurePool(object);
+
+                pool.addStructurePoolElement(element, 100);
+            });
         });
 
          */

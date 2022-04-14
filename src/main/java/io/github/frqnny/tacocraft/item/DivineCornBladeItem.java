@@ -6,8 +6,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterial;
-
-import java.util.Random;
+import net.minecraft.util.math.random.AbstractRandom;
 
 public class DivineCornBladeItem extends SwordItem {
     public DivineCornBladeItem(ToolMaterial toolMaterial, int attackDamage, float attackSpeed, Settings settings) {
@@ -17,7 +16,7 @@ public class DivineCornBladeItem extends SwordItem {
 
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        Random random = target.getRandom();
+        AbstractRandom random = target.getRandom();
         if (random.nextBoolean()) {
             target.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 20));
         }

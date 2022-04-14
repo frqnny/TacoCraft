@@ -26,10 +26,9 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.AbstractRandom;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Random;
 
 public class OpenPotBlock extends BlockWithEntity {
     public static final Identifier ID = TacoCraft.id("open_pot");
@@ -75,7 +74,7 @@ public class OpenPotBlock extends BlockWithEntity {
             }
             if (isSetupReady(world, pos) && be.closed_pancas == 2 && player.getStackInHand(hand).isEmpty() && !be.finished) {
                 be.setReady();
-                be.sync();
+                be.updateListeners();
                 return ActionResult.SUCCESS;
             } else if (be.closed_pancas < 2 && !be.finished) {
                 ItemStack stack = player.getStackInHand(hand);
@@ -83,13 +82,13 @@ public class OpenPotBlock extends BlockWithEntity {
                 if (item.equals(ModItems.CLOSED_PENCA)) {
                     stack.decrement(1);
                     be.closed_pancas++;
-                    be.sync();
+                    be.updateListeners();
                     return ActionResult.SUCCESS;
                 }
             } else if (be.finished) {
                 be.closed_pancas = 0;
                 be.finished = false;
-                be.sync();
+                be.updateListeners();
                 ItemStack stack = new ItemStack(ModItems.COOKED_PENCA);
                 stack.setCount(2);
                 ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), stack);
@@ -106,7 +105,7 @@ public class OpenPotBlock extends BlockWithEntity {
     }
 
     @Environment(EnvType.CLIENT)
-    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+    public void randomDisplayTick(BlockState state, World world, BlockPos pos, AbstractRandom random) {
         if (world.getBlockEntity(pos) instanceof OpenPotBlockEntity be && be.isCooking()) {
             double d = (double) pos.getX() + 0.5D;
             double e = pos.getY();

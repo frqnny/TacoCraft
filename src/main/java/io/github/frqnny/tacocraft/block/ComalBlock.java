@@ -60,12 +60,12 @@ public class ComalBlock extends BlockWithEntity {
 
                 player.getStackInHand(hand).decrement(1);
                 comal.startCooking();
-                comal.sync();
+                comal.updateListeners();
 
                 return ActionResult.SUCCESS;
             } else if (comal.isFinished()) {
                 comal.spawnTortilla();
-                comal.sync();
+                comal.updateListeners();
                 return ActionResult.SUCCESS;
             }
         }

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "tacocraft",
-  "version": "1.7.4-1.18.2",
+  "version": "1.7.5+22w15a",
   "name": "TacoCraft",
   "description": "Adds tacos to Minecraft!",
   "authors": [
@@ -28,7 +28,7 @@
     "tacocraft.mixins.json"
   ],
   "depends": {
-    "minecraft": "1.18.x",
+    "minecraft": "1.19.x",
     "libgui": "*"
   }
 }

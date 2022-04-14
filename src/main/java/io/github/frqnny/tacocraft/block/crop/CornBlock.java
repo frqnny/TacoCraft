@@ -22,11 +22,10 @@ import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.random.AbstractRandom;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-
-import java.util.Random;
 
 public class CornBlock extends TallPlantBlock implements Fertilizable {
     //Thanks To Yog, the CornBlock wouldn't be possible
@@ -57,7 +56,7 @@ public class CornBlock extends TallPlantBlock implements Fertilizable {
     };
     public static int growthDelay;
 
-    public CornBlock(int delay, Settings s) {
+    public CornBlock(int delay, AbstractBlock.Settings s) {
         super(s);
         growthDelay = delay;
         this.setDefaultState(this.stateManager.getDefaultState().with(AGE, 0).with(HALF, DoubleBlockHalf.LOWER));
@@ -85,7 +84,7 @@ public class CornBlock extends TallPlantBlock implements Fertilizable {
     }
 
     @Override
-    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, AbstractRandom random) {
         super.scheduledTick(state, world, pos, random);
         if (world.getBaseLightLevel(pos, 0) >= 9) {
             int age = state.get(AGE);
@@ -170,12 +169,12 @@ public class CornBlock extends TallPlantBlock implements Fertilizable {
     }
 
     @Override
-    public boolean canGrow(World world, Random random, BlockPos pos, BlockState state) {
+    public boolean canGrow(World world, AbstractRandom random, BlockPos pos, BlockState state) {
         return true;
     }
 
     @Override
-    public void grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {
+    public void grow(ServerWorld world, AbstractRandom random, BlockPos pos, BlockState state) {
         this.applyGrowth(world, pos, state);
     }
 
